@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sS -o /dev/null http://localhost:8000/)",
+      "Bash(curl -sS -o /dev/null -w \"/verify -> %{http_code}\\\\n\" http://localhost:8000/verify)",
+      "Bash(MSYS_NO_PATHCONV=1 curl -sS -o /dev/null -w \"verify=%{http_code} verify_code=%{redirect_url}\\\\n\" 'http://localhost:8000/verify')",
+      "Bash(MSYS_NO_PATHCONV=1 curl -sS -o /dev/null -w \"verifyABC=%{http_code}\\\\n\" 'http://localhost:8000/verify/ABC123')",
+      "Bash(php -r \"var_dump\\(file_exists\\('c:/laragon/www/medapp/public/verify'\\)\\);\")",
+      "Bash(php -S 127.0.0.1:8000 index.php)"
+    ]
+  }
+}
