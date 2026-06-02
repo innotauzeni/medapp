@@ -113,7 +113,7 @@ class CertificateService
         return Pdf::loadView('certificates.pdf.certificate', [
             'certificate' => $certificate,
             'verifyUrl'   => $verifyUrl,
-        ])->setPaper('a4', 'landscape');
+        ])->setPaper('a4', 'portrait');
     }
 
     public function buildAndStorePdf(Certificate $certificate): string

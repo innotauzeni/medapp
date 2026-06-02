@@ -49,6 +49,19 @@ class Certificate extends Model
         return $this->hasMany(CertificateVerification::class);
     }
 
+    /**
+     * Certificate number formatted for display, e.g. "BA 022303".
+     * Falls back to the raw value for any non AA000000-style numbers.
+     */
+    public function getDisplayNumberAttribute(): string
+    {
+        $number = (string) $this->certificate_number;
+
+        return preg_match('/^[A-Z]{2}\d{6}$/', $number)
+            ? substr($number, 0, 2) . ' ' . substr($number, 2)
+            : $number;
+    }
+
     public function isRevoked(): bool
     {
         return $this->status === 'revoked';
