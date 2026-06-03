@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Models\CourseCategory;
+use App\Services\Ai\GeminiService;
 use App\Services\CourseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -61,5 +63,29 @@ class CourseController extends Controller
         $this->authorize('courses.delete');
         $this->courses->delete($course);
         return redirect()->route('courses.index')->with('status', 'Course deleted.');
+    }
+
+    /**
+     * AI-draft a course description and modules from its title, used by the
+     * "Write with AI" button on the course form. Returns JSON the front-end
+     * inserts into the description field and modules list.
+     */
+    public function aiGenerate(Request $request, GeminiService $gemini): JsonResponse
+    {
+        abort_unless($request->user()?->canAny(['courses.create', 'courses.update']), 403);
+
+        $data = $request->validate([
+            'title'    => ['required', 'string', 'max:200'],
+            'category' => ['nullable', 'string', 'max:200'],
+        ]);
+
+        try {
+            $content = $gemini->courseContent($data['title'], $data['category'] ?? null);
+        } catch (\Throwable $e) {
+            report($e);
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+
+        return response()->json($content);
     }
 }

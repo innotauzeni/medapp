@@ -17,7 +17,10 @@
     <title>@yield('title', 'Dashboard') · {{ config('app.name', 'ER Medics') }}</title>
 
     {{-- Apply saved theme before paint to avoid flash --}}
+    {{-- Dark mode temporarily disabled — force light. Re-enable by restoring the block below. --}}
     <script>
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        {{--
         (function () {
             try {
                 var t = localStorage.getItem('er-theme');
@@ -25,6 +28,7 @@
                 document.documentElement.setAttribute('data-bs-theme', t);
             } catch (e) {}
         })();
+        --}}
     </script>
 
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
@@ -63,7 +67,8 @@
             </div>
 
             <div class="ms-auto d-flex align-items-center gap-2">
-                <button type="button" class="btn-icon" id="themeToggle" aria-label="Toggle dark mode">
+                {{-- Dark mode temporarily disabled — remove d-none to bring the toggle back. --}}
+                <button type="button" class="btn-icon d-none" id="themeToggle" aria-label="Toggle dark mode">
                     <i class="bi bi-moon-stars" id="themeIconDark"></i>
                     <i class="bi bi-sun d-none" id="themeIconLight"></i>
                 </button>

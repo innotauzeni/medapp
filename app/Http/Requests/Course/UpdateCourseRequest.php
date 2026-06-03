@@ -22,6 +22,8 @@ class UpdateCourseRequest extends FormRequest
             'title'          => ['required', 'string', 'max:200'],
             'category_id'    => ['nullable', 'exists:course_categories,id'],
             'description'    => ['nullable', 'string', 'max:5000'],
+            'image'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'remove_image'   => ['nullable', 'boolean'],
             'duration_hours' => ['required', 'integer', 'min:1', 'max:2000'],
             'passing_score'  => ['required', 'integer', 'min:0', 'max:100'],
             'fee'            => ['nullable', 'numeric', 'min:0'],
@@ -35,6 +37,9 @@ class UpdateCourseRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge(['is_active' => $this->boolean('is_active')]);
+        $this->merge([
+            'is_active'    => $this->boolean('is_active'),
+            'remove_image' => $this->boolean('remove_image'),
+        ]);
     }
 }

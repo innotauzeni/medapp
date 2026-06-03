@@ -10,6 +10,12 @@
 @section('content')
     <div class="row g-3">
         <div class="col-lg-4">
+            @if ($course->feature_image_url)
+                <div class="content-card mb-3 p-0 overflow-hidden">
+                    <img src="{{ $course->feature_image_url }}" alt="{{ $course->title }}"
+                         style="width:100%;height:auto;display:block;">
+                </div>
+            @endif
             <div class="content-card">
                 <dl class="row mb-0 small">
                     <dt class="col-5 text-muted">Code</dt><dd class="col-7"><code>{{ $course->code }}</code></dd>
@@ -25,7 +31,12 @@
         <div class="col-lg-8">
             <div class="content-card">
                 <h3 class="h6">Description</h3>
-                <p class="mb-0 small">{{ $course->description ?? '—' }}</p>
+                @php $desc = trim($course->description ?? ''); @endphp
+                @if ($desc === '')
+                    <p class="mb-0 small text-muted">—</p>
+                @else
+                    <div class="small" style="white-space: pre-line;">{{ $desc }}</div>
+                @endif
             </div>
 
             <div class="content-card mt-3">

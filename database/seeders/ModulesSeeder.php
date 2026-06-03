@@ -50,10 +50,11 @@ class ModulesSeeder extends Seeder
             ],
             [
                 'key' => 'administration', 'label' => 'Administration', 'icon' => 'bi-gear',
-                'required_permission' => 'users.view',
+                'required_permission' => null,
                 'order_index' => 40,
                 'submodules' => [
-                    ['key' => 'users', 'label' => 'Users &amp; access', 'icon' => 'bi-shield-lock', 'route_name' => 'users.index', 'required_permission' => 'users.view', 'order_index' => 10],
+                    ['key' => 'users', 'label' => 'Users &amp; access',      'icon' => 'bi-shield-lock', 'route_name' => 'users.index', 'required_permission' => 'users.view', 'order_index' => 10],
+                    ['key' => 'roles', 'label' => 'Roles &amp; permissions', 'icon' => 'bi-shield-check', 'route_name' => 'roles.index', 'required_permission' => 'roles.view', 'order_index' => 20],
                 ],
             ],
         ];

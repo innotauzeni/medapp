@@ -10,7 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Welcome') · {{ config('app.name', 'ER Medics') }}</title>
+    {{-- Dark mode temporarily disabled — force light. Re-enable by restoring the block below. --}}
     <script>
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        {{--
         (function () {
             try {
                 var t = localStorage.getItem('er-theme') ||
@@ -18,6 +21,7 @@
                 document.documentElement.setAttribute('data-bs-theme', t);
             } catch (e) {}
         })();
+        --}}
     </script>
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +46,8 @@
         </div>
 
         <div class="ms-auto d-flex align-items-center gap-2">
-            <button type="button" class="theme-pill" id="themeTogglePublic" aria-label="Toggle theme" title="Toggle light/dark theme">
+            {{-- Dark mode temporarily disabled — remove d-none to bring the toggle back. --}}
+            <button type="button" class="theme-pill d-none" id="themeTogglePublic" aria-label="Toggle theme" title="Toggle light/dark theme">
                 <i class="bi bi-sun-fill pill-icon-bg left"></i>
                 <i class="bi bi-moon-stars-fill pill-icon-bg right"></i>
                 <span class="pill-knob">

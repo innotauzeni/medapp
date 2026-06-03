@@ -6,7 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Sign in') · {{ config('app.name', 'ER Medics') }}</title>
 
+    {{-- Dark mode temporarily disabled — force light. Re-enable by restoring the block below. --}}
     <script>
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        {{--
         (function () {
             try {
                 var t = localStorage.getItem('er-theme') ||
@@ -14,6 +17,7 @@
                 document.documentElement.setAttribute('data-bs-theme', t);
             } catch (e) {}
         })();
+        --}}
     </script>
 
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
@@ -31,7 +35,8 @@
         {{ $slot ?? '' }}
         @yield('content')
 
-        <div class="text-center mt-4 small text-muted">
+        {{-- Dark mode temporarily disabled — remove d-none to bring the toggle back. --}}
+        <div class="text-center mt-4 small text-muted d-none">
             <button type="button" id="themeToggle" class="btn btn-sm btn-soft">
                 <i class="bi bi-moon-stars me-1"></i> Toggle theme
             </button>

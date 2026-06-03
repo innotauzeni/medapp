@@ -16,6 +16,7 @@ use App\Http\Controllers\Public\HomeController as PublicHomeController;
 use App\Http\Controllers\Public\PublicCourseController;
 use App\Http\Controllers\Public\TrackingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 
     // Courses
     Route::middleware('permission:courses.view')->group(function () {
+        Route::post('courses/ai-generate', [CourseController::class, 'aiGenerate'])->name('courses.ai-generate');
         Route::resource('courses', CourseController::class);
     });
 
@@ -140,6 +142,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     // Users
     Route::middleware('permission:users.view')->group(function () {
         Route::resource('users', UserController::class);
+    });
+
+    // Roles & permissions (admin-managed access control)
+    Route::middleware('permission:roles.view')->group(function () {
+        Route::resource('roles', RoleController::class)->except(['show']);
     });
 });
 

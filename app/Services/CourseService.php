@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\Course;
 use App\Repositories\Contracts\CourseRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CourseService
@@ -31,6 +33,7 @@ class CourseService
             $data['code'] = $data['code'] ?? $this->generateCode($data['title']);
             $modules = $data['modules'] ?? [];
             unset($data['modules']);
+            $this->applyImage($data);
 
             /** @var Course $course */
             $course = $this->courses->create($data);
@@ -55,6 +58,10 @@ class CourseService
             $modules = $data['modules'] ?? null;
             unset($data['modules']);
 
+            /** @var Course $existing */
+            $existing = $this->courses->findOrFail($id);
+            $this->applyImage($data, $existing);
+
             /** @var Course $course */
             $course = $this->courses->update($id, $data);
 
@@ -78,6 +85,36 @@ class CourseService
     public function delete(int $id): bool
     {
         return $this->courses->delete($id);
+    }
+
+    /**
+     * Resolve the feature-image upload into a stored path.
+     *
+     * Stores a newly uploaded file on the public disk and sets `image_path`,
+     * deleting any previous file. Honours a `remove_image` flag on update.
+     * The transient `image` / `remove_image` keys are stripped so they never
+     * reach the repository.
+     */
+    private function applyImage(array &$data, ?Course $existing = null): void
+    {
+        $remove = (bool) ($data['remove_image'] ?? false);
+        $file   = $data['image'] ?? null;
+        unset($data['image'], $data['remove_image']);
+
+        if ($file instanceof UploadedFile) {
+            if ($existing?->image_path) {
+                Storage::disk('public')->delete($existing->image_path);
+            }
+            $data['image_path'] = $file->store('courses', 'public');
+            return;
+        }
+
+        if ($remove) {
+            if ($existing?->image_path) {
+                Storage::disk('public')->delete($existing->image_path);
+            }
+            $data['image_path'] = null;
+        }
     }
 
     private function generateCode(string $title): string
