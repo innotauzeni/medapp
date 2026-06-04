@@ -31,11 +31,18 @@ class Course extends Model
     public function getFeatureImageUrlAttribute(): ?string
     {
         if ($this->image_path) {
-            // Return a host-relative URL (e.g. /storage/courses/x.jpg) rather than
-            // the absolute APP_URL-based one, so images load no matter which host
-            // or port the app is served on (artisan serve port, Apache vhost, etc.).
-            $url = Storage::disk('public')->url($this->image_path);
-            return parse_url($url, PHP_URL_PATH) ?: $url;
+            $disk = config('filesystems.course_image_disk', 'public');
+            $url  = Storage::disk($disk)->url($this->image_path);
+
+            // For the local "public" disk, return a host-relative URL
+            // (e.g. /storage/courses/x.jpg) so images load no matter which host
+            // or port the app is served on (artisan serve, Apache vhost, etc.).
+            // For remote disks like R2 the absolute URL must be kept intact.
+            if ($disk === 'public') {
+                return parse_url($url, PHP_URL_PATH) ?: $url;
+            }
+
+            return $url;
         }
 
         return $this->image_url ?: null;

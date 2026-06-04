@@ -45,6 +45,7 @@ class ModulesSeeder extends Seeder
                 'order_index' => 35,
                 'submodules' => [
                     ['key' => 'hero_slides', 'label' => 'Hero slides', 'icon' => 'bi-images',     'route_name' => 'hero_slides.index', 'required_permission' => 'hero_slides.view', 'order_index' => 10],
+                    ['key' => 'services',    'label' => 'Services',    'icon' => 'bi-grid',      'route_name' => 'services.index',    'required_permission' => 'services.view',    'order_index' => 15],
                     ['key' => 'settings',    'label' => 'Site settings','icon' => 'bi-sliders',    'route_name' => 'settings.edit',     'required_permission' => 'settings.view',    'order_index' => 20],
                 ],
             ],

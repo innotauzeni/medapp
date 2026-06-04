@@ -1,6 +1,38 @@
 @extends('layouts.public')
 @section('title', $course->title)
 
+@push('styles')
+<style>
+    /* Course description: comfortable single-column reading, sitting to the
+       right of the feature image. */
+    .course-prose {
+        line-height: 1.7;
+        color: var(--er-text);
+        text-align: left;
+    }
+    .course-prose br + br { display: none; } /* collapse blank-line runs */
+
+    /* Feature image sits beside the description (image left, text right) and
+       stays anchored at the top of its column. A fixed 4:3 frame keeps the
+       padding tight. object-fit:contain shows the WHOLE image (never cropped),
+       keeps the original aspect ratio — no stretching, no upscaling — so
+       resolution is preserved. */
+    .course-hero {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        background: var(--er-surface-2);
+    }
+    .course-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="container py-5">
     <a href="{{ route('public.courses') }}" class="small text-muted text-decoration-none"><i class="bi bi-arrow-left me-1"></i> All courses</a>
@@ -13,7 +45,19 @@
             <h1 class="h2 mt-2">{{ $course->title }}</h1>
             <div class="text-muted small">Course code: <code>{{ $course->code }}</code></div>
 
-            <p class="mt-3">{{ $course->description ?? 'Industry-recognised training delivered by experienced ER Medics trainers.' }}</p>
+            <div class="row g-4 mt-1 align-items-start">
+                @if ($course->feature_image_url)
+                    <div class="col-md-6">
+                        <div class="course-hero rounded">
+                            <img src="{{ $course->feature_image_url }}" alt="{{ $course->title }}">
+                        </div>
+                    </div>
+                @endif
+                <div class="{{ $course->feature_image_url ? 'col-md-6' : 'col-12' }}">
+                    <h2 class="h5">About this course</h2>
+                    <div class="course-prose mt-2">{!! nl2br(e($course->description ?? 'Industry-recognised training delivered by experienced ER Medics trainers.')) !!}</div>
+                </div>
+            </div>
 
             @if ($course->modules->isNotEmpty())
                 <h2 class="h5 mt-4">What you'll cover</h2>

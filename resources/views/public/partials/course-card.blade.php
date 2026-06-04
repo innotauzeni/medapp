@@ -1,5 +1,5 @@
 @php
-    $img = $c->image_url ?: ($c->image_path ? asset('storage/'.$c->image_path) : null);
+    $img = $c->feature_image_url;
 @endphp
 <div class="course-card">
     @if ($img)

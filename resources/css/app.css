@@ -786,10 +786,11 @@ hr { border-color: var(--er-border); opacity: 1; }
 .course-card { padding: 0; overflow: hidden; }
 .course-card-media {
     display: block;
-    height: 160px;
+    height: 280px;
     background: var(--er-surface-2);
     background-size: cover;
-    background-position: center;
+    background-position: center 20%;
+    background-repeat: no-repeat;
     color: var(--er-muted);
     text-align: center;
     transition: transform .4s ease;
@@ -801,7 +802,7 @@ hr { border-color: var(--er-border); opacity: 1; }
     color: var(--er-primary-600);
     font-size: 2.4rem;
 }
-.course-card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; height: calc(100% - 160px); }
+.course-card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; height: calc(100% - 280px); }
 .course-card-body .cta { margin-top: auto; padding-top: 14px; display: flex; gap: 8px; justify-content: space-between; align-items: center; }
 .course-card-body .fee { font-weight: 700; color: var(--er-text); font-size: 1.05rem; }
 .course-card-body .meta { color: var(--er-muted); font-size: .82rem; }
@@ -868,7 +869,7 @@ hr { border-color: var(--er-border); opacity: 1; }
     .stat-icon-lg { width: 44px; height: 44px; font-size: 1.15rem; }
     .section { padding: 40px 0; }
     .cta-strip-inner { padding: 22px 18px; }
-    .course-card-media { height: 130px; }
+    .course-card-media { height: 240px; }
 }
 
 /* When the mobile offcanvas sidebar opens, body lock looks better */

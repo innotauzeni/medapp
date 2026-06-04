@@ -90,8 +90,10 @@ class CourseService
     /**
      * Resolve the feature-image upload into a stored path.
      *
-     * Stores a newly uploaded file on the public disk and sets `image_path`,
-     * deleting any previous file. Honours a `remove_image` flag on update.
+     * Stores a newly uploaded file on the configured course-image disk
+     * (filesystems.course_image_disk — local "public" or Cloudflare "r2") and
+     * sets `image_path`, deleting any previous file. Honours a `remove_image`
+     * flag on update.
      * The transient `image` / `remove_image` keys are stripped so they never
      * reach the repository.
      */
@@ -101,17 +103,19 @@ class CourseService
         $file   = $data['image'] ?? null;
         unset($data['image'], $data['remove_image']);
 
+        $disk = config('filesystems.course_image_disk', 'public');
+
         if ($file instanceof UploadedFile) {
             if ($existing?->image_path) {
-                Storage::disk('public')->delete($existing->image_path);
+                Storage::disk($disk)->delete($existing->image_path);
             }
-            $data['image_path'] = $file->store('courses', 'public');
+            $data['image_path'] = $file->store('courses', $disk);
             return;
         }
 
         if ($remove) {
             if ($existing?->image_path) {
-                Storage::disk('public')->delete($existing->image_path);
+                Storage::disk($disk)->delete($existing->image_path);
             }
             $data['image_path'] = null;
         }

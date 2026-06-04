@@ -128,24 +128,13 @@
             <p class="lede mx-auto">From consulting to equipment to training — we cover the full operational readiness lifecycle.</p>
         </div>
 
-        @php
-            $services = [
-                ['bi-clipboard-data',         'Medical Equipment Consulting',   'Assess medical equipment needs, recommend suitable products, and assist with procurement and setup.'],
-                ['bi-tools',                  'Medical Equipment Maintenance',  'Maintenance and servicing packages to keep your medical equipment in optimal condition.'],
-                ['bi-box-seam',               'Medical Equipment Rental',       'Short-term or specialized equipment for events and projects — flexible rental services.'],
-                ['bi-mortarboard',            'Medical Equipment Training',     'Training and support on how to effectively and safely use the medical equipment we supply.'],
-                ['bi-sliders',                'Medical Equipment Customization','Tailoring medical equipment to your specific needs, ensuring optimal performance and usability.'],
-                ['bi-shield-fill-exclamation','Emergency Preparedness Consultation', 'Assessments of your facility\'s emergency preparedness with comprehensive plans and protocols.'],
-            ];
-        @endphp
-
         <div class="row g-3">
-            @foreach ($services as $i => [$icon, $title, $desc])
+            @foreach ($services as $i => $service)
                 <div class="col-md-6 col-lg-4">
                     <div class="service-card" style="--delay: {{ $i * 60 }}ms">
-                        <div class="icon"><i class="bi {{ $icon }}"></i></div>
-                        <h3 class="h6 mb-2">{{ $title }}</h3>
-                        <p class="text-muted small mb-0">{{ $desc }}</p>
+                        <div class="icon"><i class="bi {{ $service->icon }}"></i></div>
+                        <h3 class="h6 mb-2">{{ $service->title }}</h3>
+                        <p class="text-muted small mb-0">{{ $service->description }}</p>
                     </div>
                 </div>
             @endforeach

@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Course Image Disk
+    |--------------------------------------------------------------------------
+    |
+    | Disk used to store course feature images. Defaults to the local "public"
+    | disk; set COURSE_IMAGE_DISK=r2 in the environment to store them on
+    | Cloudflare R2 instead. Switching this value is all that is needed to
+    | move course uploads between local storage and R2.
+    |
+    */
+
+    'course_image_disk' => env('COURSE_IMAGE_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -57,6 +71,24 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+            'report' => false,
+        ],
+
+        // Cloudflare R2 (S3-compatible). Set the R2_* env vars and
+        // COURSE_IMAGE_DISK=r2 to store course images here. R2_URL must be the
+        // bucket's public URL (an r2.dev domain or a connected custom domain),
+        // since R2's API endpoint itself is not publicly readable.
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => env('R2_DEFAULT_REGION', 'auto'),
+            'bucket' => env('R2_BUCKET'),
+            'url' => env('R2_URL'),
+            'endpoint' => env('R2_ENDPOINT'),
+            'use_path_style_endpoint' => true,
+            'visibility' => 'public',
+            'throw' => true,
             'report' => false,
         ],
 

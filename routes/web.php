@@ -17,6 +17,7 @@ use App\Http\Controllers\Public\PublicCourseController;
 use App\Http\Controllers\Public\TrackingController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
@@ -137,6 +138,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     // Hero slides
     Route::middleware('permission:hero_slides.view')->group(function () {
         Route::resource('hero_slides', HeroSlideController::class)->except(['show']);
+    });
+
+    // Services (landing-page "Our services" grid)
+    Route::middleware('permission:services.view')->group(function () {
+        Route::resource('services', ServiceController::class)->except(['show']);
     });
 
     // Users

@@ -30,6 +30,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'modules'      => ['view', 'update'],
             'settings'     => ['view', 'update'],
             'hero_slides'  => ['view', 'create', 'update', 'delete'],
+            'services'     => ['view', 'create', 'update', 'delete'],
         ];
 
         $allPermissions = [];
