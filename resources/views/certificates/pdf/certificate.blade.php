@@ -51,7 +51,7 @@
         }
 
         /* ── Dates (centre) ── */
-        .dates { position: absolute; top: 196mm; left: 0; right: 0; text-align: center; z-index: 3; }
+        .dates { position: absolute; top: 179mm; left: 0; right: 0; text-align: center; z-index: 3; }
         .date-val {
             font-family: "DejaVu Sans", Arial, sans-serif; font-weight: bold;
             font-size: 12pt; color: #1d3557; display: inline-block;
@@ -63,7 +63,7 @@
         }
 
         /* ── Signatures ── */
-        .signs { position: absolute; bottom: 40mm; left: 22mm; right: 22mm; z-index: 3; }
+        .signs { position: absolute; bottom: 46mm; left: 22mm; right: 22mm; z-index: 3; }
         .signs table { width: 100%; border-collapse: collapse; }
         .signs td { vertical-align: bottom; text-align: center; }
         .signs .side { width: 38%; }
@@ -76,11 +76,14 @@
 
         /* ── Footer marks ── */
         .star img  { width: 26mm; height: auto; }
-        .star      { position: absolute; bottom: 10mm; left: 50%; margin-left: -13mm; z-index: 3; }
-        .qr        { position: absolute; bottom: 12mm; left: 20mm; z-index: 3; text-align: center; }
+        .star      { position: absolute; bottom: 16mm; left: 50%; margin-left: -13mm; z-index: 3; }
+        .qr        { position: absolute; bottom: 14mm; left: 20mm; z-index: 3; text-align: center; }
         .qr img    { width: 22mm; height: 22mm; }
         .qr-lbl    { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 5.5pt; color: #888; margin-top: 1mm; text-transform: uppercase; letter-spacing: .5px; }
-        .cert-no   { position: absolute; bottom: 16mm; right: 22mm; z-index: 3; font-family: "DejaVu Sans", Arial, sans-serif; font-weight: bold; font-size: 15pt; color: #b8232b; letter-spacing: 1px; }
+        .form-label{
+            position: absolute; bottom: 22mm; right: 24mm; z-index: 3; font-family: "DejaVu Sans", Arial, sans-serif; font-size: 5.5pt; color: #888; margin-top: 1mm; text-transform: uppercase; letter-spacing: .5px;
+        }
+        .cert-no   { position: absolute; bottom: 16mm; right: 22mm; z-index: 3; font-family: "DejaVu Sans", Arial, sans-serif; font-weight: bold; font-size: 10pt; color: #b8232b; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -136,8 +139,11 @@
     <img src="data:image/svg+xml;base64,{{ $qrSvg }}" alt="Verify">
     <div class="qr-lbl">Scan to verify</div>
 </div>
+<b class="form-label">Verify Certificate Number</b><br>
+<div class="cert-no">
 
-<div class="cert-no">{{ $certificate->display_number }}</div>
+    {{ $certificate->display_number }}
+</div>
 
 </body>
 </html>

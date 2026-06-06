@@ -9,6 +9,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+      <!--
+    ==============================================
+    System Developed By: Innocent Tauzeni
+    Company: DaraERP Solutions
+    Development Date: 28/05/2026
+    Website: https://daraerp.co.zw
+    Copyright © 2026 DaraERP Solutions
+    ==============================================
+    -->
+
+    <meta name="author" content="Innocent Tauzeni - DaraERP Solutions">
+    <meta name="creator" content="Innocent Tauzeni">
+    <meta name="designer" content="Innocent Tauzeni">
+    <meta name="copyright" content="DaraERP Solutions">
+    <meta name="developer" content="Innocent Tauzeni">
+    <meta name="application-name" content="ER Medics">
+    <meta name="generator" content="Developed by Innocent Tauzeni of DaraERP Solutions">
     <title>@yield('title', 'Welcome') · {{ config('app.name', 'ER Medics') }}</title>
     {{-- Dark mode temporarily disabled — force light. Re-enable by restoring the block below. --}}
     <script>
@@ -130,7 +147,7 @@
         <hr>
         <div class="d-flex justify-content-between small text-muted">
             <span>&copy; {{ date('Y') }} ER Medics. All rights reserved.</span>
-            <span>Powered by Laravel</span>
+            <span>Powered by FS Designs and Technologies </span>
         </div>
     </div>
 </footer>
@@ -192,5 +209,9 @@
     })();
 </script>
 @stack('scripts')
+    <!-- WhatsApp floating button -->
+    <a href="https://wa.me/263784705010?text=For%20more%20information%20contact%20us" target="_blank" rel="noopener" class="btn-whatsapp" aria-label="Chat on WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
 </body>
 </html>

@@ -12,6 +12,10 @@
     @forelse ($paginator as $s)
         <div class="col-md-6 col-lg-4">
             <div class="card-er h-100 d-flex flex-column">
+                @if ($s->feature_image_url)
+                    <img src="{{ $s->feature_image_url }}" alt="{{ $s->title }}" class="card-img-top"
+                         style="height:140px;object-fit:cover;border-radius:var(--er-radius) var(--er-radius) 0 0;">
+                @endif
                 <div class="card-er-pad flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <div class="icon" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--er-surface-2);">

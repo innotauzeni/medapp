@@ -132,9 +132,15 @@
             @foreach ($services as $i => $service)
                 <div class="col-md-6 col-lg-4">
                     <div class="service-card" style="--delay: {{ $i * 60 }}ms">
-                        <div class="icon"><i class="bi {{ $service->icon }}"></i></div>
-                        <h3 class="h6 mb-2">{{ $service->title }}</h3>
-                        <p class="text-muted small mb-0">{{ $service->description }}</p>
+                        @php $img = $service->feature_image_url; @endphp
+                        @if ($img)
+                            <div class="service-card-media" style="background-image: url('{{ $img }}');"></div>
+                        @endif
+                        <div class="service-card-body">
+                            <div class="icon"><i class="bi {{ $service->icon }}"></i></div>
+                            <h3 class="h6 mb-2">{{ $service->title }}</h3>
+                            <p class="text-muted small mb-0">{{ $service->description }}</p>
+                        </div>
                     </div>
                 </div>
             @endforeach

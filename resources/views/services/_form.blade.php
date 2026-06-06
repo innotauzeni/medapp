@@ -5,10 +5,10 @@
             <h2 class="h6 mb-3">Content</h2>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">Icon (Bootstrap Icons class) *</label>
+                    <label class="form-label">Icon (Bootstrap Icons class)</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi {{ old('icon', $service?->icon ?? 'bi-clipboard-data') }}"></i></span>
-                        <input name="icon" value="{{ old('icon', $service?->icon ?? 'bi-clipboard-data') }}" class="form-control @error('icon') is-invalid @enderror" required>
+                        <input name="icon" value="{{ old('icon', $service?->icon ?? 'bi-clipboard-data') }}" class="form-control @error('icon') is-invalid @enderror">
                     </div>
                     <div class="form-text">e.g. <code>bi-tools</code>, <code>bi-box-seam</code>. Browse names at <a href="https://icons.getbootstrap.com" target="_blank" rel="noopener">icons.getbootstrap.com</a>.</div>
                     @error('icon')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
@@ -34,6 +34,27 @@
                     <textarea name="description" rows="3" class="form-control">{{ old('description', $service?->description) }}</textarea>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card-er card-er-pad">
+            <h2 class="h6 mb-3">Image</h2>
+            @if ($service?->feature_image_url)
+                <div class="mb-3 d-flex align-items-center gap-3">
+                    <img src="{{ $service->feature_image_url }}" alt="Current image"
+                         style="height:72px;width:auto;border-radius:.5rem;object-fit:cover;">
+                    <div class="form-check mb-0">
+                        <input type="checkbox" id="remove_image" name="remove_image" value="1" class="form-check-input">
+                        <label class="form-check-label small" for="remove_image">Remove current image</label>
+                    </div>
+                </div>
+            @endif
+            <label class="form-label">Upload image</label>
+            <input type="file" name="image" accept="image/jpeg,image/png,image/webp"
+                   class="form-control @error('image') is-invalid @enderror">
+            <div class="form-text">JPG, PNG or WebP, up to 4&nbsp;MB.</div>
+            @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
     </div>
 </div>

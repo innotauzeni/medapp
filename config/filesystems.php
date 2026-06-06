@@ -31,6 +31,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Service Image Disk
+    |--------------------------------------------------------------------------
+    |
+    | Disk used to store service images. Defaults to the local "public"
+    | disk; set SERVICE_IMAGE_DISK=r2 in the environment to store them on
+    | Cloudflare R2 instead.
+    |
+    */
+
+    'service_image_disk' => env('SERVICE_IMAGE_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
