@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', site_setting('site_name', 'ER Medics') . ' — Emergency Medical Training, SHEQ &amp; Equipment')
+@section('title', site_setting('site_name', 'ER Medics') . ' â€” Emergency Medical Training, SHEQ &amp; Equipment')
 
 @section('content')
 
@@ -105,10 +105,10 @@
         <div class="row g-5 align-items-center">
             <div class="col-lg-5">
                 <span class="badge badge-soft badge-soft-primary mb-2">About us</span>
-                <h2>Strengthening first‑response capacity, workplace safety, and community resilience.</h2>
+                <h2>Strengthening firstâ€‘response capacity, workplace safety, and community resilience.</h2>
             </div>
             <div class="col-lg-7">
-                <p class="lede">ER Medics is a specialised emergency medical training and consultancy organisation. We deliver high‑quality Emergency Medical Courses for First Responders, provide structured mentoring and professional development for paramedics, and design customised SHEQ training and consultancy solutions for organisations across diverse sectors.</p>
+                <p class="lede">ER Medics is a specialised emergency medical training and consultancy organisation. We deliver highâ€‘quality Emergency Medical Courses for First Responders, provide structured mentoring and professional development for paramedics, and design customised SHEQ training and consultancy solutions for organisations across diverse sectors.</p>
                 <p class="lede mt-3">A separate arm of our business focuses on the supply of reliable medical and training equipment, ensuring our clients are fully equipped for effective learning, operational readiness, and compliance.</p>
                 <div class="d-flex flex-wrap gap-2 mt-3">
                     <span class="check-pill"><i class="bi bi-check2-circle"></i> Industry-recognised certification</span>
@@ -125,25 +125,108 @@
         <div class="text-center mb-5">
             <span class="badge badge-soft badge-soft-primary mb-2">What we do</span>
             <h2>Our services</h2>
-            <p class="lede mx-auto">From consulting to equipment to training — we cover the full operational readiness lifecycle.</p>
+            <p class="lede mx-auto">From consulting to equipment to training we cover the full operational readiness lifecycle.</p>
         </div>
 
         <div class="row g-3">
-            @foreach ($services as $i => $service)
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card" style="--delay: {{ $i * 60 }}ms">
-                        @php $img = $service->feature_image_url; @endphp
-                        @if ($img)
-                            <div class="service-card-media" style="background-image: url('{{ $img }}');"></div>
-                        @endif
-                        <div class="service-card-body">
-                            <div class="icon"><i class="bi {{ $service->icon }}"></i></div>
-                            <h3 class="h6 mb-2">{{ $service->title }}</h3>
-                            <p class="text-muted small mb-0">{{ $service->description }}</p>
-                        </div>
+            <!-- 1. Medical Equipment Consulting -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 0ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Medical Equipment Consulting</h3>
+                        <p class="text-muted small mb-0">Assess medical equipment needs, recommend suitable products, and assist with procurement and setup.</p>
                     </div>
                 </div>
-            @endforeach
+            </div>
+
+            <!-- 2. Medical Equipment Maintenance -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 60ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Medical Equipment Maintenance</h3>
+                        <p class="text-muted small mb-0">Maintenance and servicing packages to keep your medical equipment in optimal condition.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Medical Equipment Rental -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 120ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Medical Equipment Rental</h3>
+                        <p class="text-muted small mb-0">Short-term or specialized equipment for events and projects flexible rental services.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Medical Equipment Training -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 180ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Medical Equipment Training</h3>
+                        <p class="text-muted small mb-0">Training and support on how to effectively and safely use the medical equipment we supply.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Medical Equipment Customization -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 240ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Medical Equipment Customization</h3>
+                        <p class="text-muted small mb-0">Tailoring medical equipment to your specific needs, ensuring optimal performance and usability.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Emergency Preparedness Consultation -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 300ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Emergency Preparedness Consultation</h3>
+                        <p class="text-muted small mb-0">Assessments of your facility's emergency preparedness with comprehensive plans and protocols.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Events & VIP Medics Package -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 360ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Events & VIP Medics Package</h3>
+                        <p class="text-muted small mb-0">Professional on-site medical coverage for events of any scale, delivered by highly trained clinicians with rapid response capability and discreet VIP support. We safeguard guests, performers, and high-profile clients with seamless, reliable medical readiness.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Emergency Training Programs -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 420ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Emergency Training Programs</h3>
+                        <p class="text-muted small mb-0">Comprehensive, competency-based emergency care training designed to build confident responders. Our programs combine practical skills, scenario-based learning, and expert instruction to strengthen workplace safety, preparedness, and compliance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Safety & Emergency audits -->
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card" style="--delay: 480ms">
+                    <div class="service-card-media" style="background-image: url('https://pub-b68c2443dfde441db9c73ba12d8236b4.r2.dev/courses/ESdrOXZVHqBlaC4Tr4Zz9YNWrn0KjvDeyWUVZM31.png');"></div>
+                    <div class="service-card-body">
+                        <h3 class="h6 mb-2">Safety & Emergency audits</h3>
+                        <p class="text-muted small mb-0">Independent, structured assessments of your emergency systems, equipment, and response capability. We identify gaps, strengthen operational readiness, and ensure your organisation meets safety, regulatory, and best-practice standards.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -191,7 +274,7 @@
             <div class="row align-items-center g-3">
                 <div class="col-md-8">
                     <h2 class="m-0">Ready to train your team?</h2>
-                    <p class="m-0 mt-2 opacity-75">Browse our catalogue, add courses to your cart, and book in minutes — we'll follow up within one business day.</p>
+                    <p class="m-0 mt-2 opacity-75">Browse our catalogue, add courses to your cart, and book in minutes â€” we'll follow up within one business day.</p>
                 </div>
                 <div class="col-md-4 text-md-end">
                     <a href="{{ route('public.courses') }}" class="btn btn-light btn-lg fw-semibold"><i class="bi bi-cart-plus me-1"></i> Book a course</a>

@@ -58,7 +58,7 @@
                     <hr>
                     <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>{{ format_money($total) }}</span></div>
                     <a href="{{ route('public.book.form') }}" class="btn btn-primary w-100 mt-3"><i class="bi bi-bag-check me-1"></i> Proceed to booking</a>
-                    <div class="text-muted small mt-2 text-center">No payment required at booking. We'll contact you to finalise.</div>
+                    {{-- <div class="text-muted small mt-2 text-center">No payment required at booking. We'll contact you to finalise.</div> --}}
                 </div>
             </div>
         </div>

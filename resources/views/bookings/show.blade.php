@@ -126,7 +126,53 @@
             @endcan
 
             <div class="card-er card-er-pad mt-3">
-                <h2 class="h6 mb-2">Quick info</h2>
+                <h2 class="h6 mb-3">Payment</h2>
+                @if (empty($payments))
+                    <p class="text-muted small mb-2">No payment record found.</p>
+                @else
+                    @foreach (array_slice($payments, 0, 3) as $payment)
+                        @php
+                            $isPaid   = strtoupper($payment['status']) === 'PAID';
+                            $isPaynow = ($payment['payment_channel']['slug'] ?? '') === 'paynow';
+                            $receipt  = $receipts->firstWhere('book_payment_id', $payment['id']);
+                        @endphp
+                        <div class="d-flex justify-content-between gap-2 align-items-center border-bottom pb-2 mb-2">
+                            <div>
+                                <div class="fw-semibold small">{{ $payment['payment_channel']['name'] ?? 'Unknown' }}</div>
+                                <div class="small text-muted">{{ format_money($payment['total_ammount']) }}</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="badge status-{{ strtolower($payment['status']) }}">{{ $payment['status'] }}</span>
+                                @if (!$isPaid && $isPaynow)
+                                    @can('bookings.update')
+                                        <form method="POST" action="{{ route('bookings.payment.check', $booking) }}" class="d-inline">
+                                            @csrf
+                                            <input type="hidden" name="payment_id" value="{{ $payment['id'] }}">
+                                            <button type="submit" class="btn btn-soft btn-sm py-0 px-1" title="Check Paynow">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                @endif
+                                @if ($receipt)
+                                    <a href="{{ route('bookings.receipt.download', [$booking, $receipt->id]) }}"
+                                       class="btn btn-primary btn-sm py-0 px-1" title="Download receipt" target="_blank">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+                <a href="{{ route('bookings.payment.show', $booking) }}" class="btn btn-soft btn-sm w-100 mt-1">
+                    <i class="bi bi-credit-card me-1"></i> Manage payments
+                    @if ($receipts->count() > 0)
+                        <span class="badge bg-success ms-1">{{ $receipts->count() }} receipt{{ $receipts->count() > 1 ? 's' : '' }}</span>
+                    @endif
+                </a>
+            </div>
+
+            <div class="card-er card-er-pad mt-3">
                 <dl class="row mb-0 small">
                     <dt class="col-5 text-muted">Source</dt><dd class="col-7">{{ $booking->source }}</dd>
                     <dt class="col-5 text-muted">Received</dt><dd class="col-7">{{ $booking->created_at->format('d M Y, H:i') }}</dd>

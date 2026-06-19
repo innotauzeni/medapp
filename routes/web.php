@@ -43,12 +43,15 @@ Route::post  ('/cart/sync',                  [PublicCartController::class, 'sync
 // Booking
 Route::get ('/book',                         [PublicBookingController::class, 'showForm'])->name('public.book.form');
 Route::post('/book',                         [PublicBookingController::class, 'store'])->name('public.book.store');
-Route::get ('/book/confirmation/{code}',     [PublicBookingController::class, 'confirmation'])->name('public.book.confirmation');
+Route::get('/paynow/checktransaction/{uuid}', [PublicBookingController::class, 'paymentCallback'])->name('public.paynow.check');
+    Route::get ('/book/confirmation/{code}',     [PublicBookingController::class, 'confirmation'])->name('public.book.confirmation');
 
 // Booking tracking
 Route::get ('/track',                        [TrackingController::class, 'form'])->name('track.form');
 Route::post('/track',                        [TrackingController::class, 'submit'])->name('track.submit');
 Route::get ('/track/{code}',                 [TrackingController::class, 'show'])->name('track.show');
+Route::post('/track/{code}/check-payment',   [TrackingController::class, 'checkPayment'])->name('track.check-payment');
+Route::get ('/track/{code}/receipt/{receipt}',[TrackingController::class, 'downloadReceipt'])->name('track.receipt.download');
 
 // Public certificate verification (existing)
 Route::get ('/verify',                       [VerificationController::class, 'form'])->name('verify.form');
@@ -76,6 +79,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::patch ('bookings/{booking}/status',      [BookingController::class, 'updateStatus'])->name('bookings.status');
         Route::patch ('bookings/{booking}/assign',      [BookingController::class, 'assign'])->name('bookings.assign');
         Route::post  ('bookings/{booking}/note',        [BookingController::class, 'addNote'])->name('bookings.note');
+        Route::get   ('bookings/{booking}/payment',              [BookingController::class, 'showPayment'])->name('bookings.payment.show');
+        Route::post  ('bookings/{booking}/payment/check',         [BookingController::class, 'checkPayment'])->name('bookings.payment.check');
+        Route::post  ('bookings/{booking}/payment/generate-receipt', [BookingController::class, 'generateReceipt'])->name('bookings.payment.generate-receipt');
+        Route::get   ('bookings/{booking}/payment/receipt/{receipt}/download', [BookingController::class, 'downloadReceipt'])->name('bookings.receipt.download');
     });
 
     // Students
@@ -157,3 +164,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+

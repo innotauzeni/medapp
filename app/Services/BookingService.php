@@ -42,6 +42,8 @@ class BookingService
 
     /**
      * Create a booking from the customer's details + the cart contents.
+     * Does NOT clear the cart — caller is responsible for clearing after
+     * confirming the booking is fully committed (payment succeeded etc.).
      * Sends a confirmation email; failures are logged but do not break the flow.
      */
     public function createFromCart(array $customer, ?Request $request = null): Booking
@@ -81,8 +83,6 @@ class BookingService
             return $b;
         });
 
-        $this->cart->clear();
-
         // Email — non-fatal
         try {
             Mail::to($booking->email)->send(new BookingConfirmation($booking));
@@ -94,6 +94,16 @@ class BookingService
         }
 
         return $booking->fresh(['items.course', 'items.schedule']);
+    }
+
+    /**
+     * Clear the cart. Call this only after the booking is fully confirmed
+     * (i.e. after payment initiation succeeded for Paynow, or after
+     *  booking is saved for manual channels).
+     */
+    public function clearCart(): void
+    {
+        $this->cart->clear();
     }
 
     public function updateStatus(int $id, string $toStatus, ?string $comment = null): Booking

@@ -13,15 +13,15 @@ class Booking extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'booking_code', 'first_name', 'last_name', 'email', 'phone',
-        'id_type', 'id_number', 'organization', 'city', 'notes',
-        'status', 'assigned_to', 'contacted_at', 'confirmed_at',
-        'source', 'ip_address', 'user_agent',
+        "booking_code", "first_name", "last_name", "email", "phone",
+        "id_type", "id_number", "organization", "city", "notes",
+        "status", "assigned_to", "contacted_at", "confirmed_at",
+        "source", "ip_address", "user_agent",
     ];
 
     protected $casts = [
-        'contacted_at' => 'datetime',
-        'confirmed_at' => 'datetime',
+        "contacted_at" => "datetime",
+        "confirmed_at" => "datetime",
     ];
 
     public function fullName(): Attribute
@@ -48,6 +48,26 @@ class Booking extends Model
 
     public function assignee(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class, "assigned_to");
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(BookPayment::class);
+    }
+
+    public function receipts(): HasMany
+    {
+        return $this->hasMany(BookReceipt::class);
+    }
+
+    public function manualPayments(): HasMany
+    {
+        return $this->hasMany(ManualTransaction::class);
+    }
+
+    public function paynowPayments(): HasMany
+    {
+        return $this->hasMany(PaynowTransaction::class);
     }
 }

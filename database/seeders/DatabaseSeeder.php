@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             ModulesSeeder::class,
             AdminUserSeeder::class,
             SettingsSeeder::class,
+            PaymentChannelSeeder::class,
             HeroSlidesSeeder::class,
             ServicesSeeder::class,
             DemoDataSeeder::class,

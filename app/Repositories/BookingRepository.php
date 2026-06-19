@@ -33,7 +33,14 @@ class BookingRepository extends BaseRepository implements BookingRepositoryInter
     public function findByCode(string $code): ?Booking
     {
         return $this->query()
-            ->with(['items.course', 'items.schedule', 'statusLogs.user', 'assignee'])
+            ->with([
+                'items.course',
+                'items.schedule.location',
+                'statusLogs.user',
+                'assignee',
+                'payments.paymentChannel',
+                'payments.receipts',
+            ])
             ->where('booking_code', $code)
             ->first();
     }
