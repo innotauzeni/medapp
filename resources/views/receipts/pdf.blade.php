@@ -7,176 +7,242 @@
 
   body {
     font-family: 'DejaVu Sans', Arial, sans-serif;
-    font-size: 10pt;
+    font-size: 9.5pt;
     color: #1a1a2e;
     background: #ffffff;
-    padding: 0;
+    /* Equal 14mm margins on all four sides — DomPDF respects body padding.
+       NOTE: no width:100% here. DomPDF doesn't reliably support
+       box-sizing:border-box, so a block element with both an explicit
+       width AND padding/border will overflow (padding gets added on
+       top instead of being included). Block elements fill their
+       container by default with no width declared, so we just omit it. */
+    padding: 14mm;
   }
 
-  /* ── Page border ── */
+  /* ─────────────────────────────────────────
+     Single outer border — no inner border
+  ───────────────────────────────────────── */
   .page {
-    width: 100%;
-    min-height: 267mm;
-    padding: 10mm 14mm 10mm 14mm;
-    border: 3px solid #c0392b;
-    position: relative;
-  }
-  .page-inner {
-    border: 1px solid #c0392b;
-    padding: 8mm 10mm;
-    min-height: 245mm;
+    border: 2.5px solid #c0392b;
+    padding: 8mm;
+    /* same fix: no width:100% combined with border+padding */
   }
 
-  /* ── Header ── */
-  .header {
+  /* ─────────────────────────────────────────
+     Clearfix helper
+  ───────────────────────────────────────── */
+  .cf:after { content: ''; display: table; clear: both; }
+
+  /* ─────────────────────────────────────────
+     HEADER  —  logo left, title right
+     Uses explicit float widths (DomPDF safe)
+  ───────────────────────────────────────── */
+  .hdr {
     border-bottom: 2px solid #c0392b;
-    padding-bottom: 6mm;
-    margin-bottom: 6mm;
-    display: table;
-    width: 100%;
+    padding-bottom: 5mm;
+    margin-bottom: 5mm;
   }
-  .header-logo { display: table-cell; width: 50%; vertical-align: middle; }
-  .header-logo img { width: 120px; height: auto; }
-  .header-title { display: table-cell; text-align: right; vertical-align: middle; }
-  .header-title .receipt-label {
-    font-size: 20pt;
+  .hdr-logo {
+    float: left;
+    width: 45%;
+  }
+  .hdr-logo img {
+    width: 110px;
+    height: auto;
+  }
+  .hdr-title {
+    float: right;
+    width: 55%;
+    text-align: right;
+  }
+  .hdr-title .lbl-receipt {
+    font-size: 22pt;
     font-weight: bold;
     color: #c0392b;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    line-height: 1;
   }
-  .header-title .receipt-number {
-    font-size: 10pt;
-    color: #666;
-    margin-top: 2px;
+  .hdr-title .lbl-number {
+    font-size: 9.5pt;
+    color: #777;
+    margin-top: 3px;
   }
 
-  /* ── Meta strip ── */
-  .meta-strip {
-    background: #f7f7f7;
+  /* ─────────────────────────────────────────
+     META STRIP — now a table instead of
+     floated/padded divs. Table cells are
+     special-cased in the box model: padding
+     is included in the cell's width even
+     under content-box, so this is safe in
+     DomPDF without relying on box-sizing.
+  ───────────────────────────────────────── */
+  .meta-tbl {
+    background: #f5f5f5;
     border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 4mm 6mm;
-    margin-bottom: 6mm;
-    display: table;
-    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5mm;
   }
-  .meta-cell { display: table-cell; width: 33%; vertical-align: top; }
-  .meta-label { font-size: 7pt; color: #888; text-transform: uppercase; letter-spacing: .5px; }
-  .meta-value { font-size: 9.5pt; font-weight: bold; color: #1a1a2e; margin-top: 1px; }
+  .meta-tbl td {
+    width: 33.33%;
+    padding: 4mm 5mm;
+    vertical-align: top;
+  }
+  .meta-tbl td.divide {
+    border-left: 1px solid #e0e0e0;
+  }
+  .ml  { font-size: 7pt; color: #999; text-transform: uppercase; letter-spacing: .5px; }
+  .mv  { font-size: 10pt; font-weight: bold; color: #1a1a2e; margin-top: 2px; }
+  .mv-red { color: #c0392b; font-size: 11pt; }
 
-  /* ── Section headings ── */
-  .section-head {
+  /* ─────────────────────────────────────────
+     SECTION HEADING
+  ───────────────────────────────────────── */
+  .sh {
     background: #1a1a2e;
     color: #fff;
-    font-size: 8pt;
+    font-size: 7.5pt;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 3px 8px;
+    padding: 3px 6px;
     margin-bottom: 0;
   }
 
-  /* ── Customer & Booking info tables ── */
-  .info-table { width: 100%; border-collapse: collapse; margin-bottom: 6mm; }
-  .info-table td { padding: 3px 6px; font-size: 9.5pt; border-bottom: 1px solid #f0f0f0; }
-  .info-table td.lbl { color: #888; width: 35%; font-size: 8.5pt; }
-  .info-table td.val { font-weight: 500; }
+  /* ─────────────────────────────────────────
+     INFO TABLE (billed to)
+  ───────────────────────────────────────── */
+  .info-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5mm;
+    font-size: 9pt;
+  }
+  .info-tbl td {
+    padding: 3px 6px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  .info-tbl .lbl { color: #999; width: 18%; font-size: 8pt; white-space: nowrap; }
+  .info-tbl .val { font-weight: 500; width: 32%; }
 
-  /* ── Items table ── */
-  .items-table { width: 100%; border-collapse: collapse; margin-bottom: 6mm; }
-  .items-table thead tr { background: #1a1a2e; color: #fff; }
-  .items-table thead th {
-    padding: 5px 8px;
-    font-size: 8pt;
+  /* ─────────────────────────────────────────
+     ITEMS TABLE
+  ───────────────────────────────────────── */
+  .items-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5mm;
+    font-size: 9pt;
+  }
+  .items-tbl thead tr { background: #1a1a2e; color: #fff; }
+  .items-tbl thead th {
+    padding: 4px 6px;
+    font-size: 7.5pt;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: .5px;
+    letter-spacing: .4px;
     text-align: left;
   }
-  .items-table thead th.r { text-align: right; }
-  .items-table tbody tr:nth-child(even) { background: #fafafa; }
-  .items-table tbody td { padding: 5px 8px; font-size: 9pt; border-bottom: 1px solid #ebebeb; }
-  .items-table tbody td.r { text-align: right; }
-  .items-table tfoot tr { border-top: 2px solid #1a1a2e; }
-  .items-table tfoot td { padding: 6px 8px; font-size: 10pt; font-weight: bold; }
-  .items-table tfoot td.r { text-align: right; color: #c0392b; font-size: 11pt; }
-
-  /* ── Payment info ── */
-  .payment-row {
-    display: table;
-    width: 100%;
-    margin-bottom: 6mm;
+  .items-tbl thead th.r { text-align: right; }
+  .items-tbl tbody tr:nth-child(even) { background: #fafafa; }
+  .items-tbl tbody td {
+    padding: 4px 6px;
+    border-bottom: 1px solid #ececec;
+    vertical-align: top;
   }
-  .payment-cell { display: table-cell; width: 50%; vertical-align: top; }
-  .payment-box {
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 4mm;
-    margin-right: 4mm;
-  }
-  .payment-box .paid-stamp {
-    font-size: 18pt;
+  .items-tbl tbody td.r { text-align: right; }
+  .items-tbl tfoot td {
+    padding: 5px 6px;
     font-weight: bold;
-    color: #27ae60;
+    font-size: 10pt;
+    border-top: 2px solid #1a1a2e;
+  }
+  .items-tbl tfoot td.r { text-align: right; color: #c0392b; }
+
+  /* ─────────────────────────────────────────
+     PAYMENT ROW — float left/right
+     (no padding/border on the floated wrappers
+     themselves, so width % here is safe)
+  ───────────────────────────────────────── */
+  .pay-left {
+    float: left;
+    width: 55%;
+    margin-bottom: 5mm;
+  }
+  .pay-right {
+    float: right;
+    width: 40%;
+    text-align: center;
+    padding-top: 4mm;
+    margin-bottom: 5mm;
+  }
+  .pay-box {
+    border: 1px solid #e0e0e0;
+    padding: 4mm;
+    font-size: 9pt;
+    /* no width declared — fills .pay-left's content width automatically */
+  }
+  .paid-stamp {
+    font-size: 22pt;
+    font-weight: bold;
+    color: #16a34a;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    border: 3px solid #27ae60;
+    letter-spacing: 4px;
+    border: 3px solid #16a34a;
     display: inline-block;
-    padding: 2px 10px;
-    border-radius: 4px;
-    opacity: .85;
-    transform: rotate(-8deg);
+    padding: 3px 14px;
   }
 
-  /* ── Footer ── */
+  /* ─────────────────────────────────────────
+     FOOTER
+  ───────────────────────────────────────── */
   .footer {
     border-top: 1px solid #e0e0e0;
-    margin-top: 6mm;
     padding-top: 4mm;
     text-align: center;
     font-size: 7.5pt;
     color: #aaa;
+    clear: both;
   }
   .footer strong { color: #c0392b; }
 </style>
 </head>
 <body>
 <div class="page">
-<div class="page-inner">
 
   {{-- ── HEADER ── --}}
-  <div class="header">
-    <div class="header-logo">
+  <div class="hdr cf">
+    <div class="hdr-logo">
       <img src="{{ public_path('logo.jpeg') }}" alt="ER Medics">
     </div>
-    <div class="header-title">
-      <div class="receipt-label">Receipt</div>
-      <div class="receipt-number">{{ $receipt->receipt_number }}</div>
+    <div class="hdr-title">
+      <div class="lbl-receipt">Receipt</div>
+      <div class="lbl-number">{{ $receipt->receipt_number }}</div>
     </div>
   </div>
 
   {{-- ── META STRIP ── --}}
-  <div class="meta-strip">
-    <div class="meta-cell">
-      <div class="meta-label">Date issued</div>
-      <div class="meta-value">{{ $receipt->created_at->format('d F Y') }}</div>
-    </div>
-    <div class="meta-cell">
-      <div class="meta-label">Booking reference</div>
-      <div class="meta-value">{{ $receipt->booking->booking_code }}</div>
-    </div>
-    <div class="meta-cell">
-      <div class="meta-label">Amount paid</div>
-      <div class="meta-value" style="color:#c0392b; font-size:12pt;">
-        {{ format_money($receipt->amount) }}
-      </div>
-    </div>
-  </div>
+  <table class="meta-tbl">
+    <tr>
+      <td>
+        <div class="ml">Date issued</div>
+        <div class="mv">{{ $receipt->created_at->format('d F Y') }}</div>
+      </td>
+      <td class="divide">
+        <div class="ml">Booking reference</div>
+        <div class="mv">{{ $receipt->booking->booking_code }}</div>
+      </td>
+      <td class="divide">
+        <div class="ml">Amount paid</div>
+        <div class="mv mv-red">{{ format_money($receipt->amount) }}</div>
+      </td>
+    </tr>
+  </table>
 
-  {{-- ── CUSTOMER ── --}}
-  <div class="section-head">Billed to</div>
-  <table class="info-table">
+  {{-- ── BILLED TO ── --}}
+  <div class="sh">Billed to</div>
+  <table class="info-tbl">
     <tr>
       <td class="lbl">Full name</td>
       <td class="val">{{ $receipt->booking->full_name }}</td>
@@ -192,22 +258,24 @@
     @if ($receipt->booking->id_number)
     <tr>
       <td class="lbl">ID / Passport</td>
-      <td class="val" colspan="3">{{ strtoupper($receipt->booking->id_type) }} · {{ $receipt->booking->id_number }}</td>
+      <td class="val" colspan="3">
+        {{ strtoupper($receipt->booking->id_type) }} &middot; {{ $receipt->booking->id_number }}
+      </td>
     </tr>
     @endif
   </table>
 
-  {{-- ── ITEMS ── --}}
-  <div class="section-head">Courses</div>
-  <table class="items-table">
+  {{-- ── COURSES ── --}}
+  <div class="sh">Courses</div>
+  <table class="items-tbl">
     <thead>
       <tr>
-        <th>Course</th>
-        <th>Code</th>
-        <th>Schedule</th>
-        <th class="r">Qty</th>
-        <th class="r">Unit price</th>
-        <th class="r">Subtotal</th>
+        <th style="width:34%;">Course</th>
+        <th style="width:10%;">Code</th>
+        <th style="width:20%;">Schedule</th>
+        <th class="r" style="width:6%;">Qty</th>
+        <th class="r" style="width:15%;">Unit price</th>
+        <th class="r" style="width:15%;">Subtotal</th>
       </tr>
     </thead>
     <tbody>
@@ -219,10 +287,10 @@
             @if ($item->schedule)
               {{ $item->schedule->start_date->format('d M Y') }}
               @if ($item->schedule->location)
-                <br><span style="font-size:8pt;color:#888;">{{ $item->schedule->location->name }}</span>
+                <br><span style="font-size:7.5pt;color:#999;">{{ $item->schedule->location->name }}</span>
               @endif
             @else
-              <span style="color:#aaa;">TBD</span>
+              <span style="color:#bbb;">TBD</span>
             @endif
           </td>
           <td class="r">{{ $item->quantity }}</td>
@@ -233,43 +301,44 @@
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="5" style="text-align:right;">Total</td>
+        <td colspan="5" style="text-align:right; color:#555;">Total</td>
         <td class="r">{{ format_money($receipt->amount) }}</td>
       </tr>
     </tfoot>
   </table>
 
-  {{-- ── PAYMENT & STAMP ── --}}
-  <div class="payment-row">
-    <div class="payment-cell">
-      <div class="payment-box">
-        <div class="meta-label" style="margin-bottom:4px;">Payment method</div>
+  {{-- ── PAYMENT & PAID STAMP ── --}}
+  <div class="cf">
+    <div class="pay-left">
+      <div class="pay-box">
+        <div class="ml" style="margin-bottom:3px;">Payment method</div>
         <div style="font-weight:bold; font-size:10pt;">
           {{ $receipt->payment->paymentChannel?->name ?? 'Unknown' }}
         </div>
         @if ($receipt->payment->uuid)
-          <div style="font-size:7.5pt; color:#aaa; margin-top:3px; font-family:monospace;">
+          <div style="font-size:7pt; color:#bbb; margin-top:3px; font-family:monospace; word-break:break-all;">
             Ref: {{ $receipt->payment->uuid }}
           </div>
         @endif
-        <div style="font-size:8.5pt; color:#888; margin-top:4px;">
+        <div style="font-size:8pt; color:#999; margin-top:4px;">
           {{ $receipt->payment->updated_at?->format('d M Y, H:i') }}
         </div>
       </div>
     </div>
-    <div class="payment-cell" style="text-align:center; padding-top:6px;">
+    <div class="pay-right">
       <div class="paid-stamp">PAID</div>
     </div>
   </div>
 
   {{-- ── FOOTER ── --}}
   <div class="footer">
-    <strong>ER Medics</strong> &nbsp;|&nbsp;
+    <strong>ER Medics</strong>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
     This is an official receipt. Please retain for your records.
-    &nbsp;|&nbsp; Generated {{ now()->format('d M Y H:i') }}
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    Generated {{ now()->format('d M Y H:i') }}
   </div>
 
-</div>
 </div>
 </body>
 </html>

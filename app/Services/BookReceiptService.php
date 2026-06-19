@@ -54,7 +54,14 @@ class BookReceiptService
         ]);
 
         return Pdf::loadView('receipts.pdf', ['receipt' => $receipt])
-            ->setPaper('a4', 'portrait');
+            ->setPaper('a4', 'portrait')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isRemoteEnabled', false)
+            ->setOption('margin_top',    0)
+            ->setOption('margin_bottom', 0)
+            ->setOption('margin_left',   0)
+            ->setOption('margin_right',  0)
+            ->setOption('dpi', 96);
     }
 
     /** Return all receipts for a booking (newest first). */
