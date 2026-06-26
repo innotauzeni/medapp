@@ -69,6 +69,8 @@
         .signs .side { width: 38%; }
         .signs .mid  { width: 24%; }
         .sig-line { border-top: .4mm solid #1d3557; width: 46mm; margin: 0 auto; padding-top: 2mm; }
+        .sig-img { width: 40mm; height: 18mm; margin: 0 auto -1mm; }
+        .sig-img img { max-width: 40mm; max-height: 18mm; width: auto; height: auto; }
         .sig-role {
             font-family: "DejaVu Serif", Georgia, serif;
             font-weight: bold; font-size: 11pt; color: #1d3557;
@@ -118,10 +120,12 @@
     <table>
         <tr>
             <td class="side">
+                <div class="sig-img"><img src="{{ public_path('signature/director.png') }}" alt="Medical Director signature"></div>
                 <div class="sig-line"><div class="sig-role">Medical Director</div></div>
             </td>
             <td class="mid">&nbsp;</td>
             <td class="side">
+                <div class="sig-img"><img src="{{ public_path('signature/visepresident.png') }}" alt="Vice President signature"></div>
                 <div class="sig-line"><div class="sig-role">Vice President</div></div>
             </td>
         </tr>
